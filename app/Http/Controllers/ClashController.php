@@ -179,6 +179,12 @@ ATURAN KETAT:
                     }
                 } else {
                     $content = $messageData['content'] ?? '{}';
+                    // Bersihkan teks ekstra (seperti markdown ```json)
+                    $start = strpos($content, '{');
+                    $end = strrpos($content, '}');
+                    if ($start !== false && $end !== false) {
+                        $content = substr($content, $start, $end - $start + 1);
+                    }
                 }
 
                 \Illuminate\Support\Facades\Log::info("LLM Clash Response: " . $content);

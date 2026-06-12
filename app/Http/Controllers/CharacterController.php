@@ -150,6 +150,12 @@ class CharacterController extends Controller
                     }
                 } else {
                     $content = $messageData['content'] ?? '{}';
+                    // Bersihkan teks ekstra (seperti markdown ```json)
+                    $start = strpos($content, '{');
+                    $end = strrpos($content, '}');
+                    if ($start !== false && $end !== false) {
+                        $content = substr($content, $start, $end - $start + 1);
+                    }
                 }
 
                 $parsed = json_decode($content, true);
